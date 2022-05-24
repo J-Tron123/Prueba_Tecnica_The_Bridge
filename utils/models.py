@@ -46,11 +46,14 @@ tw.Date, tw.Replys, tw.Retweets, tw.Likes, tw.Quotes
 FROM Tweets as tw
 INNER JOIN Users Users ON tw.Author_id=Users.Author_id;
 """
+
+# Clean text
+
 class Clean():
     def _init__():
         pass
 
-    def clean_emojis(self, text):
+    def clean_emojis(self, text): # Clean emojis from the text
         regrex_pattern = re.compile(pattern = "["
             u"\U0001F600-\U0001F64F"  # emoticons
             u"\U0001F300-\U0001F5FF"  # symbols & pictographs
@@ -60,16 +63,18 @@ class Clean():
                                 "]+", flags = re.UNICODE)
         return regrex_pattern.sub(r'', text)
 
-    def remove_links(self, df):
-        return " ".join(['{link}' if ('http') in word else word for word in df.split()])
+    def remove_links(self, df): # Remove links from the text
+        return " ".join(['{link}' if ('http') in word else word for word in df.split()]) # Found them with regex
 
-    def signs_tweets(self, tweet):
-
+    def signs_tweets(self, tweet): # Clean punctuation marks from the text
+        
+        # Found them with regex
         punctuation_marks = re.compile("(\.)|(\;)|(\:)|(\!)|(\?)|(\¿)|(\@)|(\,)|(\")|(\()|(\))|(\[)|(\])|(\d+)")
 
         return punctuation_marks.sub("", tweet.lower())
 
 # Tweepy consultation
+
 class GetInfo():
 
     def __init__(self):
