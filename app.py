@@ -4,11 +4,11 @@ from utils.models import Clean
 
 app = Flask(__name__)
 
-@app.route("/api/v1/resources/books/all", methods=["GET", "POST"])
-def get_all():
+@app.route("/", methods=["GET", "POST"])
+def predict():
     if request.method == "GET":
 
-        return {"Instructions": """Use the following endpoint '/api/v1/resources/books/all' 
+        return {"Instructions": """Use the following endpoint '/' 
         with the param 'text' followed by a text to predict"""}
 
     else:
