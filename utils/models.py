@@ -1,5 +1,6 @@
 import pandas as pd, tweepy, pymysql, re
 from utils.config import API_KEY, SECRET_API_KEY, BEARER_TOKEN, ACCESS_TOKEN, ACCESS_SECRET_TOKEN
+from nltk.corpus import stopwords
 
 # SQL Sentences
 
@@ -53,6 +54,7 @@ class Clean():
     def _init__():
         pass
 
+
     def clean_emojis(self, text): # Clean emojis from the text
         regrex_pattern = re.compile(pattern = "["
             u"\U0001F600-\U0001F64F"  # emoticons
@@ -63,8 +65,10 @@ class Clean():
                                 "]+", flags = re.UNICODE)
         return regrex_pattern.sub(r'', text)
 
+
     def remove_links(self, df): # Remove links from the text
         return " ".join(['{link}' if ('http') in word else word for word in df.split()]) # Found them with regex
+
 
     def signs_tweets(self, tweet): # Clean punctuation marks from the text
         
@@ -72,6 +76,33 @@ class Clean():
         punctuation_marks = re.compile("(\.)|(\;)|(\:)|(\!)|(\?)|(\¿)|(\@)|(\,)|(\")|(\()|(\))|(\[)|(\])|(\d+)")
 
         return punctuation_marks.sub("", tweet.lower())
+
+
+    def remove_stopwords(self, df): # Remove spanish stopwords like "Y", "Si", "Ya", etc.
+
+        spanish_stopwords = stopwords.words("spanish") # Load Stopwords
+
+        return " ".join([word for word in df.split() if word not in spanish_stopwords]) # Split the text and remove the stopword 
+
+
+    def remove_mentions_hashtags_retweets(self, text): # Clean mentions in comments
+
+        text = re.sub(r"@[A-Za-z0-9]", "", text) # Remove mentions
+        text = re.sub(r"@[A-Za-zA-Z0-9]", "", text) # Remove mentions
+        text = re.sub(r"@[A-Za-z]", "", text) # Remove mentions
+
+        text = re.sub(r"rt[\s   ]", "", text.lower()) # Remove retweets
+
+        text = re.sub(r"#", "", text) # Remove hashtags
+
+        return text
+
+
+    def remove_no_sense_by_len(self, text):
+
+        if len(text.split()) > 2:
+
+            return text # Filter texts by len, if a text is like "Hello" or was no more than a link the function returns nothing
 
 # Tweepy consultation
 
