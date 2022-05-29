@@ -8,7 +8,7 @@
 
 - Run in your terminal the following command `pip install -r requirements.txt`
 
-- Create file named `config.py` in the folder `utils` an create the following variables with their respect key collected from API Twitter and be able to connect with the MySQL host:
+- Create a file named `config.py` in folder `utils` an create the following variables with their respect key collected from API Twitter and be able to connect with the MySQL host:
     - `API_KEY` to insert your public api key
 
     - `SECRET_API_KEY` to insert your private api key
