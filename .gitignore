@@ -1,0 +1,9 @@
+# Scripts
+utils/config.py
+
+# Useless
+*__pycache__*/
+venv/
+
+# Wildcars
+*.zip
